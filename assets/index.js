@@ -448,7 +448,9 @@ myChart.on('click', function(params) {
 refreshMainMap()
 refreshPaperCount()
 
-setTimeout(function() {
+setInterval(function() {
   refreshMainMap()
-  refreshPaperCount()
 }, 60 * 1000);
+setInterval(function() {
+  refreshPaperCount()
+}, 5 * 1000);
