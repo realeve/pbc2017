@@ -2,10 +2,16 @@
   <div>
     <div ref="chartProvince" class="chart chart1">
     </div>
-    <div style="display:flex;">
-      <div ref="chartBar" class="chart2">
+    <div class="chart2">
+      <div class="item">
+        <div class="sub-title">{{curProvince}}</div>
+        <div ref="chartBar" class="bar-chart">
+        </div>
       </div>
-      <div ref="chartBar" class="chart2">
+      <div class="item">
+        <div class="sub-title">{{curCity}}</div>
+        <div ref="chartBar2" class="bar-chart">
+        </div>
       </div>
     </div>
   </div>
@@ -20,26 +26,61 @@
   export default {
     data() {
       return {
-        cityData: []
+        cityData: [],
+        curCity: '',
+        map: ''
       }
     },
     computed: {
       chart() {
-        return echarts.init(this.$refs.chartProvince)
+        return echarts.init(this.$refs.chartProvince);
       },
       chartBar() {
-        return echarts.init(this.$refs.chartBar)
+        return echarts.init(this.$refs.chartBar);
       },
-      curProvince() {
-        return this.$store.state.curProvince;
+      chartBar2() {
+        return echarts.init(this.$refs.chartBar2);
+      },
+      curProvince: {
+        get() {
+          return this.$store.state.curProvince;
+        },
+        set(val) {
+          this.$store.commit('setCurProvince', val);
+        }
       }
     },
     watch: {
       curProvince(val) {
+        this.registerMap(val);
         this.getProvinceData(val);
+        this.updateLocalStorage();
+      },
+      curCity(val) {
+        this.getCityData(val);
+        this.updateLocalStorage();
       }
     },
     methods: {
+      loadStorage() {
+        let setting = localStorage.getItem('setting');
+        console.log(setting);
+        if (setting == null) {
+          return;
+        }
+        setting = JSON.parse(setting);
+        this.curProvince = setting.prov;
+        this.curCity = setting.city;
+        this.map = setting.map;
+      },
+      updateLocalStorage() {
+        let setting = {
+          city: this.curCity,
+          prov: this.curProvince,
+          map: util.getProvinceName(this.curProvince)
+        };
+        localStorage.setItem('setting', JSON.stringify(setting));
+      },
       resizeChart() {
         this.chart.resize();
         this.chartBar.resize();
@@ -48,12 +89,39 @@
         window.onresize = () => {
           this.resizeChart();
         }
-        this.chart.on('click', (params) => {
+        let refreshCity = params => {
           let city = params.name;
-          console.log(city);
+          if (typeof city == 'undefined') {
+            return;
+          }
+          this.curCity = city;
+        };
+        this.chartBar.on('click', params => refreshCity(params));
+        this.chart.on('click', params => refreshCity(params));
+      },
+      getCityData(city) {
+        this.curCity = city;
+        let url = this.$baseurl + 'page6/';
+        let params = {
+          city
+        };
+        if (process.env.NODE_ENV == 'development') {
+          url = 'http://cbpc540.applinzi.com/';
+          params = {
+            s: '/addon/Api/Api/getCountByCity',
+            prov: '江苏'
+          };
+        }
+        this.$http.jsonp(url, {
+          params
+        }).then(res => {
+          let option = barChart.refresh(res.data);
+          this.chartBar2.setOption(option);
         })
+
       },
       getProvinceData(province) {
+        this.curProvince = province;
         let url = this.$baseurl + 'page3/';
         let params = {
           province
@@ -66,26 +134,31 @@
           };
         }
 
-        let jsonName = util.getProvinceName(province); //this.registerMap(province);
+        this.map = util.getProvinceName(province); //this.registerMap(province);
         this.$http.jsonp(url, {
           params
         }).then(res => {
           let data = res.data;
+
+          let maxCity = data.sort((b, a) => a.value - b.value)[0]
+
           let option = {
             series: [{
               type: 'map',
               id: 'detail',
               name: province,
-              mapType: jsonName,
+              mapType: this.map,
               data: data
             }],
             visualMap: {
-              max: 1122
+              max: Math.ceil(maxCity.value / 100) * 100
             }
           };
           this.chart.setOption(option);
 
           this.chartBar.setOption(barChart.refresh(data));
+
+          this.curCity = maxCity.name;
         })
       },
       registerMap(province) {
@@ -134,8 +207,10 @@
           this.registerMap(item);
         })
         this.initEvent();
-        this.chart.setOption(util.defaultOption);
-        this.chartBar.setOption(barChart.init());
+        this.chartBar2.setOption(barChart.init(10));
+        this.chartBar.setOption(barChart.init(10));
+        this.loadStorage();
+        this.chart.setOption(util.defaultOption(this.map));
       }
     },
     mounted() {
@@ -156,8 +231,15 @@
   }
 
   .chart2 {
-    min-height: 50vh;
-    width: 50%;
+    min-height: 55vh;
+    width: 100%;
+    display: flex;
+    .item {
+      width: 50%;
+    }
+    .bar-chart {
+      min-height: 55vh;
+    }
   }
 
 </style>

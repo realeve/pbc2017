@@ -37,60 +37,62 @@ function getProvinceName(prov) {
   return provinceList[prov]
 }
 
-let defaultOption = {
-  tooltip: {
-    trigger: 'item'
-  },
-  grid: {
-    right: 0,
-    top: 0,
-    bottom: 0,
-    width: 0
-  },
-  visualMap: {
-    left: 'left',
-    top: 'bottom',
-    calculable: true,
-    color: ['rgb(42,137,184)', 'rgb(217,78,93)'].reverse(),
-    show: false,
-    max: 2000
-  },
-  series: [{
-    type: 'map',
-    id: 'detail',
-    mapType: 'beijing',
-    roam: false,
-    showLegendSymbol: false,
-    label: {
-      normal: {
-        formatter: '{b}',
-        position: 'center',
-        show: true,
-        textStyle: {
-          color: '#fefefe'
+function defaultOption(map = 'beijing') {
+  return {
+    tooltip: {
+      trigger: 'item'
+    },
+    grid: {
+      right: 0,
+      top: 0,
+      bottom: 0,
+      width: 0
+    },
+    visualMap: {
+      left: 'left',
+      top: 'bottom',
+      calculable: true,
+      color: ['rgb(42,137,184)', 'rgb(217,78,93)'].reverse(),
+      show: false,
+      max: 2000
+    },
+    series: [{
+      type: 'map',
+      id: 'detail',
+      mapType: map,
+      roam: false,
+      showLegendSymbol: false,
+      label: {
+        normal: {
+          formatter: '{b}',
+          position: 'center',
+          show: true,
+          textStyle: {
+            color: '#fefefe'
+          }
+        },
+        emphasis: {
+          show: true,
+          textStyle: {
+            color: '#fefefe'
+          }
         }
       },
-      emphasis: {
-        show: true,
-        textStyle: {
-          color: '#fefefe'
+      itemStyle: {
+        normal: {
+          borderColor: '#389BB7',
+          areaColor: '#fefefe',
+          opacity: 0.5
+        },
+        emphasis: {
+          areaColor: '#389BB7',
+          borderWidth: 0
         }
-      }
-    },
-    itemStyle: {
-      normal: {
-        borderColor: '#389BB7',
-        areaColor: '#fefefe',
-        opacity: 0.5
       },
-      emphasis: {
-        areaColor: '#389BB7',
-        borderWidth: 0
-      }
-    },
-    animation: true
-  }]
-};
+      animation: true
+    }]
+  };
+}
 
 export default {
   getProvinceName,

@@ -1,4 +1,4 @@
-function init() {
+function init(barWidth = 20) {
   let axisColor = '#fefefe';
   let lineColor = '#17b8f0';
   let option = {
@@ -58,7 +58,7 @@ function init() {
       barGap: '-100%',
       color: ['#153465'],
       barMaxWidth: 20,
-      barWidth:10,
+      barWidth,
       data: []
     }, {
       id: 'bar',
@@ -67,7 +67,7 @@ function init() {
       hoverAnimation: false,
       color: [lineColor],
       barMaxWidth: 20,
-      barWidth:10,
+      barWidth,
       data: []
     }]
   };

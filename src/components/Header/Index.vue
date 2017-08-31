@@ -19,6 +19,9 @@
       <span class="prefix">参与人数</span>
       <countup :end-val="counter.end" :duration="2" :options="counter.options"></countup>
     </div>
+    <div class="center">
+      <div class="cbpc info">技术支持：中国印钞造币总公司</div>
+    </div>
   </div>
 </template>
 
@@ -132,18 +135,23 @@
 
   .cbpc {
     .center;
-    height: 30px;
-    padding-top: 10px;
+    // height: 30px;
+    // padding-top: 10px;
     align-items: center;
     background-color: rgba(0, 0, 0, 0);
     color: rgb(255, 204, 0);
     font-weight: normal;
     font-family: '微软雅黑';
-    font-size: 12pt;
+    font-size: 14pt;
     text-overflow: ellipsis;
     white-space: nowrap;
     letter-spacing: 8pt;
     overflow: hidden;
+  }
+
+  .info{
+    font-size:10pt;
+    letter-spacing: 3pt;
   }
 
   .counter-container {

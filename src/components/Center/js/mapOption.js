@@ -127,7 +127,10 @@ let refreshMain = Data => {
     series: [{
       id: 'main',
       data: Data
-    }]
+    }],
+    visualMap: {
+      max: Math.ceil(Data.sort((b,a) => a.value - b.value)[0].value / 100) * 100
+    }
   };
   return option;
 };
