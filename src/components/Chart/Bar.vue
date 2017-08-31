@@ -8,7 +8,7 @@
 
 <script>
   import echarts from 'echarts';
-  import barChart from './js/barOption.js';
+  import barOption from './js/baroption.js';
 
   export default {
     data() {
@@ -26,7 +26,7 @@
     },
     watch:{
       cities(data){
-        this.chart.setOption(barChart.refresh(data));
+        this.chart.setOption(barOption.refresh(data));
       }
     },
     methods: {
@@ -39,7 +39,7 @@
         }
       },
       refreshChart() {
-        this.chart.setOption(barChart.init());
+        this.chart.setOption(barOption.init());
       },
       init() {
         this.refreshChart();

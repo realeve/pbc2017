@@ -21,7 +21,7 @@
   import echarts from 'echarts';
   import util from './right/index.js';
 
-  import barChart from './chart/js/barOption.js';
+  import barChart from './Chart/js/baroption.js';
 
   export default {
     data() {
@@ -52,7 +52,6 @@
     },
     watch: {
       curProvince(val) {
-        this.registerMap(val);
         this.getProvinceData(val);
         this.updateLocalStorage();
       },
@@ -64,7 +63,6 @@
     methods: {
       loadStorage() {
         let setting = localStorage.getItem('setting');
-        console.log(setting);
         if (setting == null) {
           return;
         }
@@ -206,10 +204,10 @@
         provList.forEach(item => {
           this.registerMap(item);
         })
+        this.loadStorage();
         this.initEvent();
         this.chartBar2.setOption(barChart.init(10));
         this.chartBar.setOption(barChart.init(10));
-        this.loadStorage();
         this.chart.setOption(util.defaultOption(this.map));
       }
     },
