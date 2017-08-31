@@ -1,10 +1,5 @@
 <template>
-  <div>
-    <div>
-      <v-chart class="margin-top-15"/>
-    </div>
-
-  </div>
+  <v-chart class="margin-top-15" />
 </template>
 
 <script>
@@ -19,7 +14,8 @@
 </script>
 
 <style scoped lang="less">
-  .margin-top-15{
-    margin-top:10px;
+  .margin-top-15 {
+    margin-top: 10px;
   }
+
 </style>

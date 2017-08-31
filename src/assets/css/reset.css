@@ -59,3 +59,9 @@
     flex-flow: row wrap;
     align-content: flex-start;
   }
+
+  .header{
+    position: absolute;
+    left:10%;
+    top:0px;
+  }

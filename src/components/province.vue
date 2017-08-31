@@ -6,10 +6,10 @@
       <flexbox-item :span="1/7">
         <v-left class="left-content" />
       </flexbox-item>
-      <flexbox-item :span="5/7">
+      <flexbox-item :span="4/7">
         <v-center class="center-content" />
       </flexbox-item>
-      <flexbox-item :span="1/7">
+      <flexbox-item :span="2/7">
         <v-right class="right-content" />
       </flexbox-item>
     </flexbox>
@@ -42,15 +42,15 @@
 
 </script>
 <style scoped lang="less">
-  @padding-top: 170px;
-  @div-offset: 325px;
+  @padding-top: 0px;
+  @div-offset: 50px;
   .content {
-    margin-top: -@div-offset;
+    margin-top: @div-offset;
     color: #fff;
   }
 
   .center-content {
-    padding: @padding-top+80 10px 0 10px;
+    padding: @padding-top 10px 0 10px;
   }
 
   .left-content {

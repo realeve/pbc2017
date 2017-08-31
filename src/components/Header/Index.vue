@@ -16,7 +16,7 @@
       <div class="cbpc">中国人民银行 货币金银局</div>
     </div>
     <div class="counter-container">
-      <!-- <span class="prefix">参与人数</span> -->
+      <span class="prefix">参与人数</span>
       <countup :end-val="counter.end" :duration="2" :options="counter.options"></countup>
     </div>
   </div>

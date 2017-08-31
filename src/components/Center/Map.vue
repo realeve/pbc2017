@@ -29,28 +29,43 @@
         window.onresize = () => {
           this.resizeChart();
         }
+        this.chart.on('click',(params)=>{
+          if(params.seriesIndex == 0){
+            let province = params.name;
+            this.$store.commit('setCurProvince',province);
+          }
+        })
       },
       getData() {
-        let url = 'http://cbpc540.applinzi.com/index.php';
-        let params = {
-          s: '/addon/Api/Api/commentByCity',
-          type: 1
+        let url = this.$baseurl + 'page/';
+        if(process.env.NODE_ENV == 'development'){
+          url = 'http://cbpc540.applinzi.com/?s=/addon/Api/Api/getCountByProv';
         }
-        this.$http.jsonp(url, {
-          params
-        }).then(res => {
-          this.cityData = res.data;
-          this.chart.setOption(mapChart.refresh(this.cityData));
-        })
+        this.$http.jsonp(url).then(res => {
+          let provData = res.data;
+          this.chart.setOption(mapChart.refreshMain(provData));
+
+        }).catch(e=>console.log(e));
+        
+        url = this.$baseurl + 'page2/';
+        if(process.env.NODE_ENV == 'development'){
+          url = 'http://cbpc540.applinzi.com/?s=/addon/Api/Api/getCountByCity&Prov=四川';
+        }
+        this.$http.jsonp(url).then(res => {
+          let provData = res.data;
+          let option = mapChart.refreshScatter(provData);
+          this.chart.setOption(option);
+          this.$store.commit('setTop20Cities',provData);
+        }).catch(e=>console.log(e))
       },
       refreshChart() {
         this.chart.setOption(mapChart.init());
         this.getData();
 
         // 20秒更新一次数据
-        setInterval(() => {
-          this.getData();
-        }, 20000);
+        // setInterval(() => {
+        //   this.getData();
+        // }, 20000);
       },
       init() {
         echarts.registerMap('china', chinaJson);
@@ -68,7 +83,7 @@
 <style scoped lang="less">
   .chart {
     width: 100%;
-    height: 530px;
+    min-height: 100vh;
   }
 
 </style>

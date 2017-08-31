@@ -8,7 +8,7 @@
 
 <script>
   import echarts from 'echarts';
-  import pieChart from './js/barOption.js';
+  import barChart from './js/barOption.js';
 
   export default {
     data() {
@@ -19,6 +19,14 @@
     computed: {
       chart() {
         return echarts.init(this.$refs.chart);
+      },
+      cities(){
+        return this.$store.state.top20Cities;
+      }
+    },
+    watch:{
+      cities(data){
+        this.chart.setOption(barChart.refresh(data));
       }
     },
     methods: {
@@ -30,24 +38,10 @@
           this.resizeChart();
         }
       },
-      getData() {
-        let url = 'http://cbpc540.applinzi.com/index.php';
-        let params = {
-          s: '/addon/Api/Api/commentByCity',
-          curid: this.curId
-        }
-        this.$http.jsonp(url, {
-          params
-        }).then(res => {
-          this.cityData = res.data;
-          this.chart.setOption(pieChart.refresh(this.cityData));
-        })
-      },
       refreshChart() {
-        this.chart.setOption(pieChart.init());
+        this.chart.setOption(barChart.init());
       },
       init() {
-        this.getData();
         this.refreshChart();
         this.initEvent();
       }
@@ -64,5 +58,8 @@
     min-height: 80vh;
     width: 100%;
   }
-
+  .wrap-title{
+    margin-bottom:5px;
+    color: rgb(255, 204, 0);
+  }
 </style>
