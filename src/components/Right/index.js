@@ -58,13 +58,13 @@ let defaultOption = {
   series: [{
     type: 'map',
     id: 'detail',
-    mapType:'beijing',
-    roam: true,
+    mapType: 'beijing',
+    roam: false,
     showLegendSymbol: false,
     label: {
       normal: {
         formatter: '{b}',
-        position: 'right',
+        position: 'center',
         show: true,
         textStyle: {
           color: '#fefefe'
@@ -80,7 +80,8 @@ let defaultOption = {
     itemStyle: {
       normal: {
         borderColor: '#389BB7',
-        areaColor: '#fefefe'
+        areaColor: '#fefefe',
+        opacity: 0.5
       },
       emphasis: {
         areaColor: '#389BB7',

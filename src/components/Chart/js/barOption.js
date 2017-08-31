@@ -58,7 +58,7 @@ function init() {
       barGap: '-100%',
       color: ['#153465'],
       barMaxWidth: 20,
-      barWidth:20,
+      barWidth:10,
       data: []
     }, {
       id: 'bar',
@@ -67,17 +67,18 @@ function init() {
       hoverAnimation: false,
       color: [lineColor],
       barMaxWidth: 20,
-      barWidth:20,
+      barWidth:10,
       data: []
     }]
   };
   return option;
 }
 
-let refresh = (Data) => {
+let refresh = (srcData) => {
+  let Data = JSON.parse(JSON.stringify(srcData)).sort((a,b)=>a.value-b.value);
   let xAxis = Data.map(item => item.name);
   let yAxis = Data.map(item => item.value);
-  let stackData = yAxis.map(item => yAxis[0]);
+  let stackData = yAxis.map(item => yAxis[yAxis.length-1]);
   let option = {
     yAxis: {
       data: xAxis

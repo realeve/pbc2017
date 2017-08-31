@@ -50,15 +50,16 @@
   }
 
   .center-content {
-    padding: @padding-top 10px 0 10px;
+    padding: @padding-top 0px 0 0px;
   }
 
   .left-content {
-    padding: @padding-top 25px 0px 10px;
+    padding: @padding-top 5px 0px 0px;
   }
 
   .right-content {
-    padding: @padding-top 10px 0px 0px;
+    padding: @padding-top 0px 0px 0px;
+    margin-top:-50px;
   }
 
 </style>

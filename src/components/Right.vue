@@ -1,8 +1,12 @@
 <template>
   <div>
-    <div ref="chartProvince" class="chart">
+    <div ref="chartProvince" class="chart chart1">
     </div>
-    <div ref="chartBar" class="chart">
+    <div style="display:flex;">
+      <div ref="chartBar" class="chart2">
+      </div>
+      <div ref="chartBar" class="chart2">
+      </div>
     </div>
   </div>
 </template>
@@ -10,6 +14,8 @@
 <script>
   import echarts from 'echarts';
   import util from './right/index.js';
+
+  import barChart from './chart/js/barOption.js';
 
   export default {
     data() {
@@ -43,8 +49,8 @@
           this.resizeChart();
         }
         this.chart.on('click', (params) => {
-          let province = params.name;
-          console.log(province);
+          let city = params.name;
+          console.log(city);
         })
       },
       getProvinceData(province) {
@@ -60,13 +66,14 @@
           };
         }
 
-        let jsonName = this.registerMap(province);
+        let jsonName = util.getProvinceName(province); //this.registerMap(province);
         this.$http.jsonp(url, {
           params
         }).then(res => {
           let data = res.data;
           let option = {
             series: [{
+              type: 'map',
               id: 'detail',
               name: province,
               mapType: jsonName,
@@ -77,7 +84,8 @@
             }
           };
           this.chart.setOption(option);
-          console.log(option);
+
+          this.chartBar.setOption(barChart.refresh(data));
         })
       },
       registerMap(province) {
@@ -87,9 +95,47 @@
         return jsonName;
       },
       init() {
-        this.registerMap('北京');
+        let provList = [
+          '上海',
+          '河北',
+          '山西',
+          '内蒙古',
+          '辽宁',
+          '吉林',
+          '黑龙江',
+          '江苏',
+          '浙江',
+          '安徽',
+          '福建',
+          '江西',
+          '山东',
+          '河南',
+          '湖北',
+          '湖南',
+          '广东',
+          '广西',
+          '海南',
+          '四川',
+          '贵州',
+          '云南',
+          '西藏',
+          '陕西',
+          '甘肃',
+          '青海',
+          '宁夏',
+          '新疆',
+          '北京',
+          '天津',
+          '重庆',
+          '香港',
+          '澳门'
+        ];
+        provList.forEach(item => {
+          this.registerMap(item);
+        })
         this.initEvent();
         this.chart.setOption(util.defaultOption);
+        this.chartBar.setOption(barChart.init());
       }
     },
     mounted() {
@@ -102,7 +148,16 @@
 <style scoped lang="less">
   .chart {
     width: 100%;
+    margin: 15px auto;
+  }
+
+  .chart1 {
+    min-height: 40vh;
+  }
+
+  .chart2 {
     min-height: 50vh;
+    width: 50%;
   }
 
 </style>
