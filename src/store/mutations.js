@@ -1,4 +1,5 @@
 // 同步事件
+import moment from 'moment';
 
 let mutations = {
   setCurProvince(state,val){
@@ -8,6 +9,9 @@ let mutations = {
     state.curCity = val;
   },
   setTop20Cities(state,val){
+    if(!state.isPC){
+      return;
+    }
     let data = val.sort((a,b)=>{
       return b.value-a.value;
     })    
@@ -15,9 +19,18 @@ let mutations = {
   },
   setPeopleCount(state,val){
     state.peopleCount = val;
+    if(!state.isPC){
+      return;
+    }
   },
   refresh(state,val){
     state.needRefresh = val;
+    if(val){
+      state.nextTime = moment().add(30,'seconds').format('MM-DD HH:MM:SS');
+    }
+  },
+  setBrowser(state,val){
+    state.isPC = val;
   }
 }
 

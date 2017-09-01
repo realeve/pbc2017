@@ -1,19 +1,28 @@
 <template>
   <div>
     <full-image/>
-    <v-header/>
-    <span class="info">说明：数据每分钟更新一次<br>点击省份或城市查看详情</span>
-    <flexbox :gutter="0" wrap="wrap" class="content">
-      <flexbox-item :span="1/7">
-        <v-left class="left-content" />
-      </flexbox-item>
-      <flexbox-item :span="4/7">
+    <template v-if="isPC">
+      <v-header/>
+      <span class="info">下次更新: {{nextTime}}<br>点击省份或城市查看详情</span>
+      <flexbox :gutter="0" wrap="wrap" class="content">
+        <flexbox-item:span="1/7">
+          <v-left class="left-content" />
+          </flexbox-item>
+          <flexbox-item :span="4/7">
+            <v-center class="center-content" />
+          </flexbox-item>
+          <flexbox-item :span="2/7">
+            <v-right class="right-content" />
+          </flexbox-item>
+      </flexbox>
+    </template>
+    <template v-else>
+      <p class="tip-mobile">当前人数: {{peopleCount}}</p>
+      <div class="content">
         <v-center class="center-content" />
-      </flexbox-item>
-      <flexbox-item :span="2/7">
         <v-right class="right-content" />
-      </flexbox-item>
-    </flexbox>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -38,6 +47,17 @@
       VLeft,
       VCenter,
       VRight
+    },
+    computed: {
+      nextTime() {
+        return this.$store.state.nextTime;
+      },
+      isPC() {
+        return this.$store.state.isPC;
+      },
+      peopleCount() {
+        return this.$store.state.peopleCount;
+      }
     }
   }
 
@@ -60,14 +80,25 @@
 
   .right-content {
     padding: @padding-top 0px 0px 0px;
-    margin-top:-150px;
+    margin-top: -150px;
   }
-  .info{
+
+  .info {
     position: absolute;
     right: 5px;
-    top:5px;
-    color:#f2f2f2;
+    top: 5px;
+    color: #f2f2f2;
     line-height: 14px;
-    font-size:9pt;
+    font-size: 9pt;
   }
+
+  .tip-mobile {
+    text-align: right;
+    color: #fff;
+    position: absolute;
+    right: 10px;
+    top:10px;
+    font-size: 12pt;
+  }
+
 </style>

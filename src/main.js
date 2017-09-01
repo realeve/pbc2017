@@ -9,7 +9,6 @@ import store from './store';
 import resource from 'vue-resource';
 Vue.use(resource);
 
-import 'animate.css';
 import './assets/css/reset.css';
 
 FastClick.attach(document.body)

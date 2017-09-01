@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div ref="chart" class="chart">
+    <div ref="chart" class="chart" :class="{mobile:!isPC}">
     </div>
   </div>
 </template>
@@ -29,18 +29,21 @@
           this.$store.commit('setPeopleCount', val);
         }
       },
-      needRefresh:{
-        get(){
+      needRefresh: {
+        get() {
           return this.$store.state.needRefresh;
         },
-        set(val){
-          this.$store.commit('refresh',val);
+        set(val) {
+          this.$store.commit('refresh', val);
         }
+      },
+      isPC() {
+        return this.$store.state.isPC;
       }
     },
     watch: {
-      needRefresh(val){
-        if(val){
+      needRefresh(val) {
+        if (val) {
           this.getData();
         }
       },
@@ -63,7 +66,7 @@
         this.chart.on('click', (params) => {
           if (params.seriesIndex == 0) {
             let province = params.name;
-            if(province == '香港' || province == '澳门'){
+            if (province == '香港' || province == '澳门') {
               province += '特别行政区';
             }
             this.$store.commit('setCurProvince', province);
@@ -79,6 +82,11 @@
           this.provData = res.data;
           this.chart.setOption(mapChart.refreshMain(this.provData));
         }).catch(e => console.log(e));
+
+        if (!this.isPC) {
+          this.needRefresh = false;
+          return;
+        }
 
         url = this.$baseurl + 'page2/';
         // if (process.env.NODE_ENV == 'development') {
@@ -118,6 +126,12 @@
   .chart {
     width: 100%;
     min-height: 100vh;
+  }
+
+  .mobile {
+    min-height: 60vh;
+    margin-top: -20%;
+    margin-bottom: 20%;
   }
 
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="isPC">
     <div ref="chartProvince" class="chart chart1">
     </div>
     <div class="chart2">
@@ -12,6 +12,13 @@
         <div class="sub-title">{{curCity}}</div>
         <div ref="chartBar2" class="bar-chart">
         </div>
+      </div>
+    </div>
+  </div>
+  <div v-else>
+    <div class="item" style="margin-top:40px;">
+      <div class="sub-title">{{curProvince}}</div>
+      <div ref="chartBar" class="mobile">
       </div>
     </div>
   </div>
@@ -31,13 +38,19 @@
       }
     },
     computed: {
-      chart() {
-        return echarts.init(this.$refs.chartProvince);
-      },
       chartBar() {
         return echarts.init(this.$refs.chartBar);
       },
+      chart() {
+        if (!this.isPC) {
+          return;
+        }
+        return echarts.init(this.$refs.chartProvince);
+      },
       chartBar2() {
+        if (!this.isPC) {
+          return;
+        }
         return echarts.init(this.$refs.chartBar2);
       },
       curProvince: {
@@ -63,6 +76,9 @@
         set(val) {
           this.$store.commit('refresh', val);
         }
+      },
+      isPC() {
+        return this.$store.state.isPC;
       }
     },
     watch: {
@@ -77,6 +93,9 @@
         this.updateLocalStorage();
       },
       curCity(val) {
+        if (!this.isPC) {
+          return;
+        }
         this.getCityData(val);
         this.updateLocalStorage();
       }
@@ -116,9 +135,15 @@
           this.curCity = city;
         };
         this.chartBar.on('click', params => refreshCity(params));
+        if (!this.isPC) {
+          return;
+        }
         this.chart.on('click', params => refreshCity(params));
       },
       getCityData(city) {
+        if (!this.isPC) {
+          return;
+        }
         // this.curCity = city;
         let url = this.$baseurl + 'page6/';
         let params = {
@@ -154,7 +179,7 @@
         //   };
         // }
 
-        this.map = util.getProvinceName(province); //this.registerMap(province);
+        this.map = util.getProvinceName(province);
         this.$http.jsonp(url, {
           params
         }).then(res => {
@@ -174,12 +199,13 @@
               max
             }
           };
-          this.chart.setOption(option);
 
+          if (this.isPC) {
+            this.chart.setOption(option);
+            this.curCity = typeof maxCity == 'undefined' ? '' : maxCity.name;
+          }
           this.chartBar.setOption(barChart.refresh(data));
 
-          this.curCity = typeof maxCity == 'undefined' ? '' : maxCity.name;
-          
           this.needRefresh = false;
         })
       },
@@ -189,7 +215,10 @@
         echarts.registerMap(jsonName, mapJSON);
         return jsonName;
       },
-      init() {
+      initEChartsData() {
+        if (!this.isPC) {
+          this.return;
+        }
         let provList = [
           '上海',
           '河北',
@@ -229,10 +258,15 @@
         provList.forEach(item => {
           this.registerMap(item);
         })
+      },
+      init() {
         this.loadStorage();
         this.initEvent();
+        this.chartBar.setOption(barChart.init(this.isPC ? 10 : 20));
+        if (!this.isPC) {
+          return;
+        }
         this.chartBar2.setOption(barChart.init(10));
-        this.chartBar.setOption(barChart.init(10));
         this.chart.setOption(util.defaultOption(this.map));
       }
     },
@@ -263,6 +297,11 @@
     .bar-chart {
       min-height: 55vh;
     }
+  }
+
+  .mobile {
+    width:100%;
+    min-height: 90vh;
   }
 
 </style>
