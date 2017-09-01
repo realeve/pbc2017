@@ -5,7 +5,7 @@
       <v-header/>
       <span class="info">下次更新: {{nextTime}}<br>点击省份或城市查看详情</span>
       <flexbox :gutter="0" wrap="wrap" class="content">
-        <flexbox-item:span="1/7">
+        <flexbox-item :span="1/7">
           <v-left class="left-content" />
           </flexbox-item>
           <flexbox-item :span="4/7">
