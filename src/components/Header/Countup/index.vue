@@ -34,7 +34,7 @@
       // duration in seconds
       duration: {
         type: Number,
-        default: 5
+        default: 2
       },
       options: {
         type: Object,
