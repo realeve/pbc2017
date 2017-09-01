@@ -20,12 +20,20 @@
       chart() {
         return echarts.init(this.$refs.chart);
       },
-      cities(){
+      cities() {
         return this.$store.state.top20Cities;
+      },
+      curCity: {
+        get() {
+          return this.$store.state.curCity;
+        },
+        set(val) {
+          this.$store.commit('setCurCity', val);
+        }
       }
     },
-    watch:{
-      cities(data){
+    watch: {
+      cities(data) {
         this.chart.setOption(barOption.refresh(data));
       }
     },
@@ -37,6 +45,14 @@
         window.onresize = () => {
           this.resizeChart();
         }
+
+        this.chart.on('click', params => {
+          let city = params.name;
+          if (typeof city == 'undefined') {
+            return;
+          }
+          this.curCity = city;
+        });
       },
       refreshChart() {
         this.chart.setOption(barOption.init());
@@ -58,8 +74,10 @@
     min-height: 80vh;
     width: 100%;
   }
-  .wrap-title{
-    margin-bottom:5px;
+
+  .wrap-title {
+    margin-bottom: 5px;
     color: rgb(255, 204, 0);
   }
+
 </style>

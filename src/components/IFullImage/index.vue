@@ -6,7 +6,7 @@
       <div class="control">
         <i class="fullsc show" :class="{'enabled':isFullScreen}" @click="fullScreen" title="全屏模式"></i>
         <i class="music show" :class="{mute}" title="背景音乐" @click="audioPlayer"></i>
-        <audio src="./static/bg.mp3" loop="loop" ref="audio"></audio>
+        <audio src="./static/bg.mp3" autoplay="autoplay" loop="loop" ref="audio"></audio>
       </div>
     </div>
   </div>
@@ -21,7 +21,7 @@
       return {
         toBottom: false,
         isFullScreen: false,
-        mute: true,
+        mute: false,
       }
     },
     computed: {

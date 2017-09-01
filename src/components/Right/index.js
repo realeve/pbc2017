@@ -32,7 +32,8 @@ function getProvinceName(prov) {
     '天津': 'tianjin',
     '重庆': 'chongqing',
     '香港': 'xianggang',
-    '澳门': 'aomen'
+    '澳门': 'aomen',
+    '台湾': 'taiwan'
   }
   return provinceList[prov]
 }
@@ -52,7 +53,8 @@ function defaultOption(map = 'beijing') {
       left: 'left',
       top: 'bottom',
       calculable: true,
-      color: ['rgb(42,137,184)', 'rgb(217,78,93)'].reverse(),
+      color: ['#43f', 'rgb(255,58,73)'].reverse(),
+      // color: ['rgb(42,137,184)', 'rgb(217,78,93)'].reverse(),
       show: false,
       max: 2000
     },
@@ -60,7 +62,7 @@ function defaultOption(map = 'beijing') {
       type: 'map',
       id: 'detail',
       mapType: map,
-      roam: false,
+      roam: true,
       showLegendSymbol: false,
       label: {
         normal: {

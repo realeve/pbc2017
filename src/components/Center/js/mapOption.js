@@ -5,21 +5,27 @@ let geoCoordMap = settings.geoCoord;
 let convertScatterData = data => {
   let arr = [];
   data.forEach(item => {
-    if (typeof geoCoordMap[item.name] != 'undefined') {
-      arr.push({
-        name: item.name,
-        value: geoCoordMap[item.name].concat([item.value])
-      });
+    let geo = geoCoordMap(item.name);
+    if (geo.length == 0) {
+      return;
     }
+    arr.push({
+      name: item.name,
+      value: geo.concat([item.value])
+    });
   });
   return arr;
 }
 
-let getTopData = data => {
-  data.sort((a, b) => b.value - a.value);
-
+let getTopData = srcData => {
+  srcData.sort((a, b) => b.value - a.value);
+  let data = convertScatterData(srcData.slice(0, 20));
+  data = data.map((item, i) => {
+    item.name = `${i+1}.${item.name}`;
+    return item;
+  });
   return {
-    data: convertScatterData(data.slice(0, 9)),
+    data,
     sort: {
       max: data[0].value,
       min: data[data.length - 1].value
@@ -28,7 +34,7 @@ let getTopData = data => {
 }
 
 let getSymbolSize = (sort, val) => {
-  return Math.ceil(10 * (val - sort.min) / (sort.max - sort.min)) + 3;
+  return Math.ceil(10 * (val - sort.min[2]) / (sort.max[2] - sort.min[2])) + 1;
 }
 
 function init() {
@@ -116,6 +122,32 @@ function init() {
         }
       },
       data: []
+    }, {
+      id: 'top20',
+      name: 'Top20',
+      type: 'effectScatter',
+      coordinateSystem: 'geo',
+      zlevel: 3,
+      rippleEffect: {
+        brushType: 'stroke'
+      },
+      label: {
+        normal: {
+          show: true,
+          position: 'right',
+          formatter: '{b}',
+          textStyle: {
+            color: '#fc0'
+          }
+        }
+      },
+      itemStyle: {
+        normal: {
+          color: '#fc0',
+          // color: '#0ecdec',
+        }
+      },
+      data: []
     }]
   };
 
@@ -129,7 +161,7 @@ let refreshMain = Data => {
       data: Data
     }],
     visualMap: {
-      max: Math.ceil(Data.sort((b,a) => a.value - b.value)[0].value / 100) * 100
+      max: Math.ceil(Data.sort((b, a) => a.value - b.value)[0].value / 100) * 100
     }
   };
   return option;
@@ -137,11 +169,16 @@ let refreshMain = Data => {
 
 let refreshScatter = Data => {
   let topData = getTopData(Data);
+  let data = convertScatterData(Data);
   let option = {
     series: [{
       id: 'scatter',
       symbolSize: val => getSymbolSize(topData.sort, val[2]),
-      data: convertScatterData(Data)
+      data
+    }, {
+      id: 'top20',
+      symbolSize: val => getSymbolSize(topData.sort, val[2]),
+      data: topData.data
     }]
   };
   return option;

@@ -27,7 +27,6 @@
     data() {
       return {
         cityData: [],
-        curCity: '',
         map: ''
       }
     },
@@ -48,9 +47,31 @@
         set(val) {
           this.$store.commit('setCurProvince', val);
         }
+      },
+      curCity: {
+        get() {
+          return this.$store.state.curCity;
+        },
+        set(val) {
+          this.$store.commit('setCurCity', val);
+        }
+      },
+      needRefresh: {
+        get() {
+          return this.$store.state.needRefresh;
+        },
+        set(val) {
+          this.$store.commit('refresh', val);
+        }
       }
     },
     watch: {
+      needRefresh(val) {
+        if (val) {
+          this.getProvinceData(this.curProvince);
+          this.getCityData(this.curCity);
+        }
+      },
       curProvince(val) {
         this.getProvinceData(val);
         this.updateLocalStorage();
@@ -98,23 +119,24 @@
         this.chart.on('click', params => refreshCity(params));
       },
       getCityData(city) {
-        this.curCity = city;
+        // this.curCity = city;
         let url = this.$baseurl + 'page6/';
         let params = {
           city
         };
-        if (process.env.NODE_ENV == 'development') {
-          url = 'http://cbpc540.applinzi.com/';
-          params = {
-            s: '/addon/Api/Api/getCountByCity',
-            prov: '江苏'
-          };
-        }
+        // if (process.env.NODE_ENV == 'development') {
+        //   url = 'http://cbpc540.applinzi.com/';
+        //   params = {
+        //     s: '/addon/Api/Api/getCountByCity',
+        //     prov: '江苏'
+        //   };
+        // }
         this.$http.jsonp(url, {
           params
         }).then(res => {
           let option = barChart.refresh(res.data);
           this.chartBar2.setOption(option);
+          this.needRefresh = false;
         })
 
       },
@@ -124,13 +146,13 @@
         let params = {
           province
         };
-        if (process.env.NODE_ENV == 'development') {
-          url = 'http://cbpc540.applinzi.com/';
-          params = {
-            s: '/addon/Api/Api/getCountByCity',
-            prov: province
-          };
-        }
+        // if (process.env.NODE_ENV == 'development') {
+        //   url = 'http://cbpc540.applinzi.com/';
+        //   params = {
+        //     s: '/addon/Api/Api/getCountByCity',
+        //     prov: province
+        //   };
+        // }
 
         this.map = util.getProvinceName(province); //this.registerMap(province);
         this.$http.jsonp(url, {
@@ -139,7 +161,7 @@
           let data = res.data;
 
           let maxCity = data.sort((b, a) => a.value - b.value)[0]
-
+          let max = typeof maxCity == 'undefined' ? 0 : Math.ceil(maxCity.value / 100) * 100;
           let option = {
             series: [{
               type: 'map',
@@ -149,14 +171,16 @@
               data: data
             }],
             visualMap: {
-              max: Math.ceil(maxCity.value / 100) * 100
+              max
             }
           };
           this.chart.setOption(option);
 
           this.chartBar.setOption(barChart.refresh(data));
 
-          this.curCity = maxCity.name;
+          this.curCity = typeof maxCity == 'undefined' ? '' : maxCity.name;
+          
+          this.needRefresh = false;
         })
       },
       registerMap(province) {
@@ -199,7 +223,8 @@
           '天津',
           '重庆',
           '香港',
-          '澳门'
+          '澳门',
+          '台湾'
         ];
         provList.forEach(item => {
           this.registerMap(item);

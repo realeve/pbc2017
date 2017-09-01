@@ -13,12 +13,43 @@
   export default {
     data() {
       return {
-        cityData: []
+        cityData: [],
+        provData: 0
       }
     },
     computed: {
       chart() {
         return echarts.init(this.$refs.chart)
+      },
+      peopleCount: {
+        get() {
+          return this.$store.state.peopleCount;
+        },
+        set(val) {
+          this.$store.commit('setPeopleCount', val);
+        }
+      },
+      needRefresh:{
+        get(){
+          return this.$store.state.needRefresh;
+        },
+        set(val){
+          this.$store.commit('refresh',val);
+        }
+      }
+    },
+    watch: {
+      needRefresh(val){
+        if(val){
+          this.getData();
+        }
+      },
+      provData(data) {
+        let sum = 0;
+        data.forEach(item => {
+          sum += parseInt(item.value);
+        });
+        this.peopleCount = sum;
       }
     },
     methods: {
@@ -29,34 +60,37 @@
         window.onresize = () => {
           this.resizeChart();
         }
-        this.chart.on('click',(params)=>{
-          if(params.seriesIndex == 0){
+        this.chart.on('click', (params) => {
+          if (params.seriesIndex == 0) {
             let province = params.name;
-            this.$store.commit('setCurProvince',province);
+            if(province == '香港' || province == '澳门'){
+              province += '特别行政区';
+            }
+            this.$store.commit('setCurProvince', province);
           }
         })
       },
       getData() {
         let url = this.$baseurl + 'page/';
-        if(process.env.NODE_ENV == 'development'){
-          url = 'http://cbpc540.applinzi.com/?s=/addon/Api/Api/getCountByProv';
-        }
+        // if (process.env.NODE_ENV == 'development') {
+        //   url = 'http://cbpc540.applinzi.com/?s=/addon/Api/Api/getCountByProv';
+        // }
         this.$http.jsonp(url).then(res => {
-          let provData = res.data;
-          this.chart.setOption(mapChart.refreshMain(provData));
+          this.provData = res.data;
+          this.chart.setOption(mapChart.refreshMain(this.provData));
+        }).catch(e => console.log(e));
 
-        }).catch(e=>console.log(e));
-        
         url = this.$baseurl + 'page2/';
-        if(process.env.NODE_ENV == 'development'){
-          url = 'http://cbpc540.applinzi.com/?s=/addon/Api/Api/getCountByCity&Prov=四川';
-        }
+        // if (process.env.NODE_ENV == 'development') {
+        //   url = 'http://cbpc540.applinzi.com/?s=/addon/Api/Api/getCountByCity&Prov=四川';
+        // }
         this.$http.jsonp(url).then(res => {
           let provData = res.data;
           let option = mapChart.refreshScatter(provData);
           this.chart.setOption(option);
-          this.$store.commit('setTop20Cities',provData);
-        }).catch(e=>console.log(e))
+          this.$store.commit('setTop20Cities', provData);
+          this.needRefresh = false;
+        }).catch(e => console.log(e))
       },
       refreshChart() {
         this.chart.setOption(mapChart.init());

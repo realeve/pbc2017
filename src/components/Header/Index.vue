@@ -43,21 +43,20 @@
         }
       }
     },
+    computed:{
+      peopleCount(){
+        return this.$store.state.peopleCount;
+      }
+    },
+    watch:{
+      peopleCount(){
+        this.autoAdd();
+      }
+    },
     methods: {
       autoAdd() {
-        setInterval(() => {
-          this.refreshCounter(this.counter.end + Math.random() * 1000);
-        }, 3000);
-        // let url = 'http://cbpc540.applinzi.com/index.php';
-        // let params = {
-        //   s: '/addon/Api/Api/getAllCommentNum'
-        // }
-        // this.$http.jsonp(url, {
-        //   params
-        // }).then(res => {
-        //   this.counter.end = Number.parseInt(res.data[0].num);
-        //   this.refreshCounter(this.counter.end);
-        // })
+        this.counter.end = this.peopleCount;
+        this.refreshCounter(this.counter.end);
       },
       refreshCounter(val) {
         this.counter.start = this.counter.end;
@@ -65,9 +64,7 @@
       }
     },
     mounted() {
-      setInterval(() => {
-        this.autoAdd();
-      }, 5000);
+      this.autoAdd();
     }
   }
 
@@ -125,17 +122,16 @@
         line-height: 35pt;
         letter-spacing: 25px;
         font-size: 25pt;
-        padding-left:20px;
+        padding-left: 20px;
       }
-      .main-title{
-        border-top:3px solid rgb(253,192,5);
+      .main-title {
+        border-top: 3px solid rgb(253, 192, 5);
       }
     }
   }
 
   .cbpc {
-    .center;
-    // height: 30px;
+    .center; // height: 30px;
     // padding-top: 10px;
     align-items: center;
     background-color: rgba(0, 0, 0, 0);
@@ -149,8 +145,8 @@
     overflow: hidden;
   }
 
-  .info{
-    font-size:10pt;
+  .info {
+    font-size: 10pt;
     letter-spacing: 3pt;
   }
 

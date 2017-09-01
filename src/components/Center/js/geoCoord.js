@@ -1,4 +1,4 @@
-let geoCoord = {
+let coord = {
     "北京": [116.395645, 39.929986],
     "上海": [121.487899, 31.249162],
     "天津": [117.210813, 39.14393],
@@ -395,5 +395,15 @@ let geoCoord = {
     "台湾": [120.961454, 23.80406],
     "台北": [121.489971, 25.094466]
 };
-
+let geoCoord = city=>{
+    let keys = Object.keys(coord);
+    let geo=[];
+    for(let i=0;!geo.length && i<keys.length;i++){
+        let key = keys[i];
+        if(city.includes(key)){
+            geo = coord[key];
+        }
+    }
+    return geo;
+}
 export default { geoCoord };
