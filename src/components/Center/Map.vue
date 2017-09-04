@@ -2,6 +2,7 @@
   <div>
     <div ref="chart" class="chart" :class="{mobile:!isPC}">
     </div>
+    <p v-if="!isPC" class="tip-mobile">技术支持：中国印钞造币总公司</p>
   </div>
 </template>
 
@@ -136,7 +137,13 @@
   .mobile {
     min-height: 60vh;
     margin-top: -20%;
-    margin-bottom: 20%;
+    margin-bottom: 40%;
   }
-
+  .tip-mobile{
+    color:#fff;
+    font-size: 10pt;
+    position: absolute;
+    right:10px;
+    top:53%;
+  }
 </style>

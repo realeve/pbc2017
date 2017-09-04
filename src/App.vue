@@ -5,6 +5,7 @@
 </template>
 
 <script>
+  import qs from 'qs';
   export default {
     name: 'app',
     computed: {
@@ -20,7 +21,7 @@
     mounted(){
       setInterval(()=>{
         this.needRefresh = true;
-      },this.$store.state.refreshInterval);
+      },this.$store.state.refreshInterval);      
     }
   }
 

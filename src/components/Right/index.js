@@ -41,7 +41,10 @@ function getProvinceName(prov) {
 function defaultOption(map = 'beijing') {
   return {
     tooltip: {
-      trigger: 'item'
+      trigger: 'item',
+      formatter(param) {
+        return param.name + '<br>参与人数:' + param.data.value + '人<br>通过人数：' + param.data.passed + '人';
+      }
     },
     grid: {
       right: 0,

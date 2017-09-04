@@ -5,7 +5,7 @@
       <v-header/>
       <span class="info">下次更新: {{nextTime}}<br>点击省份或城市查看详情</span>
       <flexbox :gutter="0" wrap="wrap" class="content">
-        <flexbox-item:span="1/7">
+        <flexbox-item :span="1/7">
           <v-left class="left-content" />
           </flexbox-item>
           <flexbox-item :span="4/7">
@@ -16,13 +16,14 @@
           </flexbox-item>
       </flexbox>
     </template>
-    <template v-else>
+    <template v-else>      
       <div class="tip-mobile">
         <span>当前人数: {{peopleCount}}</span><br>
         <span>通过人数: {{passedCount}}</span>
       </div>
+      <span class="info-left">下次更新: {{nextTime}}</span>
       <div class="content">
-        <v-center class="center-content" />
+        <v-center class="center-content" />        
         <v-right class="right-content" />
       </div>
     </template>
@@ -102,9 +103,16 @@
     text-align: right;
     color: #fff;
     position: absolute;
-    right: 5px;
-    top:5px;
+    right: 10px;
+    top:10px;
     font-size: 9pt;
   }
-
+  .info-left{
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    color: #f2f2f2;
+    line-height: 14px;
+    font-size: 9pt;
+  }
 </style>

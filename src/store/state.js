@@ -21,7 +21,7 @@ const state = {
   peopleCount: 0,
   refreshInterval: 30 * 1000,
   needRefresh: false,
-  nextTime: moment().add(30, 'seconds').format('MM-DD HH:MM:SS'),
+  nextTime: moment().add(30, 'seconds').format('MM-DD HH:mm:ss'),
   isPC: !isMobile(),
   passedCount:0
 }

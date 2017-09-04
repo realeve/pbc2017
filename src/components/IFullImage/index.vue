@@ -2,11 +2,11 @@
   <div>
     <div class="page-bg"></div>
     <div class="bg-dot"></div>
-    <div class="fixedcon">
+    <div class="fixedcon" v-show="isPC">
       <div class="control">
         <i class="fullsc show" :class="{'enabled':isFullScreen}" @click="fullScreen" title="全屏模式"></i>
-        <i class="music show" :class="{mute}" title="背景音乐" @click="audioPlayer"></i>
-        <audio src="./static/bg.mp3" autoplay="autoplay" loop="loop" ref="audio"></audio>
+        <!-- <i class="music show" :class="{mute}" title="背景音乐" @click="audioPlayer"></i>
+        <audio src="./static/bg.mp3" autoplay="autoplay" loop="loop" ref="audio"></audio> -->
       </div>
     </div>
   </div>
@@ -21,12 +21,12 @@
       return {
         toBottom: false,
         isFullScreen: false,
-        mute: false,
+        // mute: false,
       }
     },
     computed: {
-      player() {
-        return this.$refs.audio;
+      isPC() {
+        return this.$store.state.isPC;
       }
     },
     methods: {
@@ -71,20 +71,26 @@
         }
         this.isFullScreen = !this.isFullScreen;
       },
-      audioPlayer() {
-        if (this.player.paused) {
-          this.player.play();
-        } else {
-          this.player.pause();
-        }
-        this.mute = !this.mute;
-      }
+      // audioPlayer() {
+      //   if (this.player.paused) {
+      //     this.player.play();
+      //   } else {
+      //     this.player.pause();
+      //   }
+      //   this.mute = !this.mute;
+      // }
     },
-    mounted() {
-      this.player.volume = 0.4;
-    },
-    activated(){
-      this.player.play();
-    }
+    // mounted() {
+    //   this.player.volume = 0.4;
+    // },
+    // activated(){
+    //   this.player.play();
+    // }
   }
 </script>
+<style lang="less" scoped>
+ .fixedcon .control{
+   width:50px;
+ }
+</style>
+
