@@ -18,8 +18,9 @@
     </template>
     <template v-else>
       <p class="tip-mobile">当前人数: {{peopleCount}}</p>
+      <span class="info-left">下次更新: {{nextTime}}</span>
       <div class="content">
-        <v-center class="center-content" />
+        <v-center class="center-content" />        
         <v-right class="right-content" />
       </div>
     </template>
@@ -100,5 +101,12 @@
     top:10px;
     font-size: 12pt;
   }
-
+  .info-left{
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    color: #f2f2f2;
+    line-height: 14px;
+    font-size: 9pt;
+  }
 </style>

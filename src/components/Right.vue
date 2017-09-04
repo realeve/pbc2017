@@ -20,6 +20,8 @@
       <div class="sub-title">{{curProvince}}</div>
       <div ref="chartBar" class="mobile">
       </div>
+      <div ref="chartBar2" class="mobile">
+      </div>
     </div>
   </div>
 </template>
@@ -48,9 +50,9 @@
         return echarts.init(this.$refs.chartProvince);
       },
       chartBar2() {
-        if (!this.isPC) {
-          return;
-        }
+        // if (!this.isPC) {
+        //   return;
+        // }
         return echarts.init(this.$refs.chartBar2);
       },
       curProvince: {
@@ -93,9 +95,9 @@
         this.updateLocalStorage();
       },
       curCity(val) {
-        if (!this.isPC) {
-          return;
-        }
+        // if (!this.isPC) {
+        //   return;
+        // }
         this.getCityData(val);
         this.updateLocalStorage();
       }
@@ -141,9 +143,9 @@
         this.chart.on('click', params => refreshCity(params));
       },
       getCityData(city) {
-        if (!this.isPC) {
-          return;
-        }
+        // if (!this.isPC) {
+        //   return;
+        // }
         // this.curCity = city;
         let url = this.$baseurl + 'page6/';
         let params = {
@@ -199,11 +201,11 @@
               max
             }
           };
-
-          if (this.isPC) {
+          // console.log(option);
+          if(this.isPC){            
             this.chart.setOption(option);
-            this.curCity = typeof maxCity == 'undefined' ? '' : maxCity.name;
           }
+          this.curCity = typeof maxCity == 'undefined' ? '' : maxCity.name;
           this.chartBar.setOption(barChart.refresh(data));
 
           this.needRefresh = false;
@@ -217,7 +219,7 @@
       },
       initEChartsData() {
         if (!this.isPC) {
-          this.return;
+          return;
         }
         let provList = [
           '上海',
@@ -260,13 +262,14 @@
         })
       },
       init() {
+        this.initEChartsData();
         this.loadStorage();
         this.initEvent();
         this.chartBar.setOption(barChart.init(this.isPC ? 10 : 20));
+        this.chartBar2.setOption(barChart.init(10));
         if (!this.isPC) {
           return;
         }
-        this.chartBar2.setOption(barChart.init(10));
         this.chart.setOption(util.defaultOption(this.map));
       }
     },
@@ -300,7 +303,7 @@
   }
 
   .mobile {
-    width:100%;
+    width: 100%;
     min-height: 90vh;
   }
 
