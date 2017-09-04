@@ -22,7 +22,8 @@ const state = {
   refreshInterval: 30 * 1000,
   needRefresh: false,
   nextTime: moment().add(30, 'seconds').format('MM-DD HH:MM:SS'),
-  isPC: !isMobile()
+  isPC: !isMobile(),
+  passedCount:0
 }
 
 export default state

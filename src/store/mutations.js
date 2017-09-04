@@ -31,6 +31,9 @@ let mutations = {
   },
   setBrowser(state,val){
     state.isPC = val;
+  },
+  setPassed(state,val){
+    state.passedCount = val;
   }
 }
 

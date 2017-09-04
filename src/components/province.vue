@@ -17,7 +17,10 @@
       </flexbox>
     </template>
     <template v-else>
-      <p class="tip-mobile">当前人数: {{peopleCount}}</p>
+      <div class="tip-mobile">
+        <span>当前人数: {{peopleCount}}</span><br>
+        <span>通过人数: {{passedCount}}</span>
+      </div>
       <div class="content">
         <v-center class="center-content" />
         <v-right class="right-content" />
@@ -57,6 +60,9 @@
       },
       peopleCount() {
         return this.$store.state.peopleCount;
+      },
+      passedCount(){
+        return this.$store.state.passedCount;
       }
     }
   }
@@ -96,9 +102,9 @@
     text-align: right;
     color: #fff;
     position: absolute;
-    right: 10px;
-    top:10px;
-    font-size: 12pt;
+    right: 5px;
+    top:5px;
+    font-size: 9pt;
   }
 
 </style>

@@ -81,6 +81,11 @@
         this.$http.jsonp(url).then(res => {
           this.provData = res.data;
           this.chart.setOption(mapChart.refreshMain(this.provData));
+          let passednum = 0;
+          this.provData.map(item=>{
+            passednum+=parseInt(item.passed);
+          })
+          this.$store.commit('setPassed',passednum);
         }).catch(e => console.log(e));
 
         if (!this.isPC) {
