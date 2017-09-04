@@ -267,7 +267,7 @@
         this.loadStorage();
         this.initEvent();
         this.chartBar.setOption(barChart.init(this.isPC ? 10 : 20));
-        this.chartBar2.setOption(barChart.init(10));
+        this.chartBar2.setOption(barChart.init(this.isPC ? 10 : 20));
         if (!this.isPC) {
           return;
         }
