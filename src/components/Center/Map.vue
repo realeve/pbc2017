@@ -3,8 +3,8 @@
     <div ref="chart" class="chart" :class="{mobile:!isPC}">
     </div>
     <div v-if="!isPC" class="tip-mobile">
-      <span>下次更新: {{nextTime}}</span>
-      <span>技术支持：中国印钞造币总公司</span>
+      <span style="padding-left:5px;">{{nextTime}}</span><!--下次更新: -->
+      <span style="padding-right:5px;">技术支持：中国印钞造币总公司</span>
     </div>
   </div>
 </template>

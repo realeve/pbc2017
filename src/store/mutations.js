@@ -26,7 +26,7 @@ let mutations = {
   refresh(state,val){
     state.needRefresh = val;
     if(val){
-      state.nextTime = moment().add(30, 'seconds').format('HH:mm:ss');
+      state.nextTime = moment().add(30, 'seconds').format('MM-DD HH:mm:ss');
     }
   },
   setBrowser(state,val){
