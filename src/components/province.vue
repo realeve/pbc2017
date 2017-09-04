@@ -16,12 +16,9 @@
           </flexbox-item>
       </flexbox>
     </template>
-    <template v-else>      
-      <div class="tip-mobile">
-        <span>当前人数: {{peopleCount}}</span><br>
-        <span>通过人数: {{passedCount}}</span>
-      </div>
-      <span class="info-left">下次更新: {{nextTime}}</span>
+    <template v-else>  
+      <span class="tip-mobile-left">通过人数: {{passedCount}}</span>
+      <span class="tip-mobile">参与人数: {{peopleCount}}</span>   
       <div class="content">
         <v-center class="center-content" />        
         <v-right class="right-content" />
@@ -103,10 +100,19 @@
     text-align: right;
     color: #fff;
     position: absolute;
-    right: 10px;
-    top:10px;
-    font-size: 9pt;
+    right: 5px;
+    top:5px;
+    font-size: 12pt;
   }
+
+  .tip-mobile-left {
+    color: #fff;
+    position: absolute;
+    left: 5px;
+    top:5px;
+    font-size: 12pt;
+  }
+
   .info-left{
     position: absolute;
     left: 10px;
