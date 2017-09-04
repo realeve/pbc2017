@@ -15,13 +15,14 @@
       </div>
     </div>
   </div>
-  <div v-else>
-    <div class="item" style="margin-top:40px;">
+  <div v-else style="padding:10px;">
+    <div class="item" style="margin-top:20px;">
       <div class="sub-title">{{curProvince}}</div>
-      <div ref="chartBar" class="mobile">
-      </div>
-      <div ref="chartBar2" class="mobile">
-      </div>
+      <div ref="chartBar" class="mobile"></div>
+    </div>
+    <div class="item" style="margin-top:20px;">
+      <div class="sub-title">{{curCity}}</div>
+      <div ref="chartBar2" class="mobile"></div>
     </div>
   </div>
 </template>
@@ -202,7 +203,7 @@
             }
           };
           // console.log(option);
-          if(this.isPC){            
+          if (this.isPC) {
             this.chart.setOption(option);
           }
           this.curCity = typeof maxCity == 'undefined' ? '' : maxCity.name;

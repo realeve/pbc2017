@@ -21,8 +21,9 @@ const state = {
   peopleCount: 0,
   refreshInterval: 30 * 1000,
   needRefresh: false,
-  nextTime: moment().add(30, 'seconds').format('MM-DD HH:MM:SS'),
-  isPC: !isMobile()
+  nextTime: moment().add(30, 'seconds').format('MM-DD HH:mm:ss'),
+  isPC: !isMobile(),
+  passMode:window.location.href.includes('?p=1')
 }
 
 export default state

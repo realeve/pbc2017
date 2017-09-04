@@ -78,6 +78,7 @@ let refresh = (srcData) => {
   let Data = JSON.parse(JSON.stringify(srcData)).sort((a,b)=>a.value-b.value);
   let xAxis = Data.map(item => item.name);
   let yAxis = Data.map(item => item.value);
+  let passedArr = Data.map(item=>item.passed);
   let stackData = yAxis.map(item => yAxis[yAxis.length-1]);
   let option = {
     yAxis: {
@@ -89,7 +90,13 @@ let refresh = (srcData) => {
     }, {
       id: 'stack',
       data: stackData
-    }]
+    }],
+    tooltip:{
+      formatter(param){
+        let passed = passedArr[param.dataIndex];
+        return param.name + '<br>参与人数:' + param.value + '人<br>通过人数：' + passed + '人';
+      }
+    }
   };
   return option;
 };

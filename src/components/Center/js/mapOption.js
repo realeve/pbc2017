@@ -42,10 +42,7 @@ function init() {
     tooltip: {
       trigger: 'item',
       formatter(param) {
-        if (param.seriesIndex == 0) {
-          return param.seriesName + ':<br>' + param.name + ':' + param.value + '人';
-        }
-        return '参与人数:<br>' + param.name + ':' + param.value[2] + '人';
+        return param.name + '<br>参与人数:' + param.data.value + '人<br>通过人数：' + param.data.passed + '人';
       }
     },
     visualMap: {
