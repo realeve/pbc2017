@@ -29,5 +29,7 @@
 
 <style lang="less">
   @import '~vux/src/styles/reset.less';
-
+  body{
+    font-family: 'Pingfang SC','Pingfang','等线','dengxian','Helvatica','Microsoft Yahei','微软雅黑','Yahei'
+  }
 </style>
