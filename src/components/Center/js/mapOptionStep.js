@@ -50,7 +50,7 @@ function init() {
             left: 'left',
             top: 'bottom',
             calculable: true,
-            color: ['#21f', '#ff202a'].reverse(),            
+            color: ['#43f', '#ff202a'].reverse(),            
             pieces: [
                 {
                     max: 10000
