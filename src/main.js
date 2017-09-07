@@ -15,7 +15,8 @@ FastClick.attach(document.body)
 
 Vue.config.productionTip = false
 
-Vue.prototype.$baseurl = 'https://pro.wenjuan.com/report/s8/59891c5202aa5e6baa87553d/';
+// Vue.prototype.$baseurl = 'https://pro.wenjuan.com/report/s8/59891c5202aa5e6baa87553d/';
+Vue.prototype.$baseurl = 'https://bank.wenjuan.com/report/s8/59ad0ffec976d857cb4121fb/';
 
 /* eslint-disable no-new */
 new Vue({
