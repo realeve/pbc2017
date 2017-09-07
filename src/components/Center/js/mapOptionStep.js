@@ -70,7 +70,7 @@ function init() {
             textStyle: {
                 color: '#fff'
             },
-            // show: false,
+            show: false,
             max: 50000,
             seriesIndex: 0
         },
