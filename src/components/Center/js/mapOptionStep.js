@@ -50,19 +50,19 @@ function init() {
             left: 'left',
             top: 'bottom',
             calculable: true,
-            color: ['#43f', '#ff202a'].reverse(),            
+            color: ['#43f', '#ff404a'].reverse(),            
             pieces: [
                 {
-                    max: 10000
+                    max: 15000
                 }, {
-                    min: 10001,
-                    max: 20000
-                }, {
-                    min: 20001,
+                    min: 15001,
                     max: 30000
                 }, {
                     min: 30001,
                     max: 45000
+                }, {
+                    min: 45001,
+                    max: 60000
                 }, {
                     min: 60001
                 }
