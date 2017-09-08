@@ -137,7 +137,6 @@
     background-color: rgba(0, 0, 0, 0);
     color: rgb(255, 204, 0);
     font-weight: normal;
-    font-family: '微软雅黑';
     font-size: 14pt;
     text-overflow: ellipsis;
     white-space: nowrap;

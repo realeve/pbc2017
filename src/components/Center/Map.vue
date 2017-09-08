@@ -12,7 +12,11 @@
 <script>
 import echarts from 'echarts';
 import chinaJson from './js/china.json';
-import mapChart from './js/mapOption.js';
+// 以渐变来变化颜色
+// import mapChart from './js/mapOption.js';
+
+// 以名次变化地图颜色
+import mapChart from './js/mapOptionStep.js';
 
 export default {
   data() {
